@@ -1,13 +1,8 @@
 body {
+  margin: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center; 
+  background-color: indigo;
 }
-
-@media only screen and (max-width: 768px) {
-  body {
-    margin: 0;
-    background-color: indigo;
-  }
-} 

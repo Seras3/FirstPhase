@@ -3,6 +3,10 @@ var config = {
   width: 300,
   height: 600,
   parent: document.getElementById("game"),
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   physics: {
     default: 'arcade',
     fps: 60
@@ -31,19 +35,18 @@ function create() {
   W = this.game.config.width;
   cursors = this.input.keyboard.createCursorKeys();
 
-  leftInput = this.add.rectangle(0, 0, W / 2, H)
-    .setOrigin(0, 0).setInteractive();
-  rightInput = this.add.rectangle(W / 2, 0, W / 2, H)
-    .setOrigin(0, 0).setInteractive();
+  jumpSound = this.scene.scene.sound.add('jump');
 
   var score = 0;
   var scoreText = this.add.text(5, 5, 'Score: 0', { fontFamily: 'Courier', fontSize: 20 });
 
   playerSize = 50;
-  player = this.physics.add.sprite(W / 2, H - playerSize / 2, 'player').setDisplaySize(playerSize, playerSize);
+  player = this.physics.add.sprite(W / 2, H - playerSize / 2, 'player')
+    .setDisplaySize(playerSize, playerSize)
+    .setDataEnabled();
   player.setCollideWorldBounds(true);
   player.setGravityY(1100);
-  player.data = { originY: player.y };
+  player.setData({ originY: player.y, jumping: false });
 
   appleSize = 50;
   apples = this.physics.add.group();
@@ -85,9 +88,9 @@ function update() {
     player.setVelocityX(0);
   }
 
-  if (cursors.up.isDown && player.y == player.data.originY) {
+  if (cursors.up.isDown && player.body.onFloor()) {
     player.setVelocityY(-600);
-    this.game.sound.play('jump');
+    jumpSound.play();
   }
 
   // Mobile
@@ -101,9 +104,10 @@ function update() {
         player.flipX = false;
       }
     }
-    if (this.input.activePointer.y < H / 3 * 2 && player.y == player.data.originY) {
+
+    if (this.input.activePointer.y < H / 3 * 2 && player.body.onFloor()) {
       player.setVelocityY(-600);
-      this.game.sound.play('jump');
+      this.sound.play('jump');
     }
   }
 }
