@@ -6,4 +6,4 @@ You could try it right [here](https://adamsapples.herokuapp.com/).
 
 ## Overview
 
-<img src="https://github.com/Seras3/FirstPhase/blob/master/docs/images/in_game.png" height="400" >
+![demo](https://github.com/Seras3/FirstPhase/blob/master/docs/gif/first_phase_demo.gif)
